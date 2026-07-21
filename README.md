@@ -27,32 +27,6 @@ A beautiful online Markdown editor with live preview, built with Next.js.
 - **Markdown:** react-markdown + remark-gfm + rehype-highlight
 - **Icons:** Lucide React
 
-## Getting Started
-
-```bash
-# Install dependencies
-npm install
-
-# Run dev server
-npm run dev
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Deploy
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/markdown-editor)
-
-1. Push this repo to GitHub
-2. Import in [Vercel](https://vercel.com)
-3. Deploy — zero configuration needed
-
 ## License
 
 MIT
