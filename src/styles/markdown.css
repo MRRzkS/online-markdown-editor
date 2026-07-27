@@ -1,0 +1,187 @@
+/*
+ * Typography for rendered markdown. Tailwind's preflight strips heading, list
+ * and quote defaults, so `.markdown-body` puts them back — once, for every
+ * surface that shows markdown (live preview and PDF alike).
+ */
+
+.markdown-body {
+  color: var(--color-foreground);
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  overflow-wrap: break-word;
+}
+
+.markdown-body > :first-child {
+  margin-top: 0;
+}
+
+.markdown-body > :last-child {
+  margin-bottom: 0;
+}
+
+/* Headings */
+
+.markdown-body :is(h1, h2, h3, h4, h5, h6) {
+  margin: 2em 0 0.75em;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.markdown-body :is(h1, h2) {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.markdown-body h1 {
+  font-size: 1.875em;
+}
+
+.markdown-body h2 {
+  font-size: 1.4em;
+}
+
+.markdown-body h3 {
+  font-size: 1.2em;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-size: 0.9em;
+}
+
+.markdown-body h6 {
+  font-size: 0.85em;
+  color: var(--color-muted-foreground);
+}
+
+/* Blocks */
+
+.markdown-body :is(p, ul, ol, pre, blockquote, table, details) {
+  margin: 0 0 1.15em;
+}
+
+.markdown-body ul {
+  padding-left: 1.5em;
+  list-style: disc;
+}
+
+.markdown-body ol {
+  padding-left: 1.5em;
+  list-style: decimal;
+}
+
+.markdown-body li {
+  margin: 0.3em 0;
+}
+
+.markdown-body li > :is(ul, ol) {
+  margin: 0.3em 0;
+}
+
+.markdown-body li::marker {
+  color: var(--color-muted-foreground);
+}
+
+.markdown-body ul.contains-task-list {
+  padding-left: 0.25em;
+  list-style: none;
+}
+
+.markdown-body .task-list-item input {
+  margin-right: 0.5em;
+  accent-color: var(--color-primary);
+}
+
+.markdown-body blockquote {
+  padding: 0.1em 0 0.1em 1.15em;
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-muted-foreground);
+}
+
+.markdown-body blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body hr {
+  margin: 2.5em 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Inline */
+
+.markdown-body a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown-body a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body em {
+  font-style: italic;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Code */
+
+.markdown-body code {
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+.markdown-body pre {
+  padding: 1em 1.15em;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-muted);
+  overflow-x: auto;
+}
+
+.markdown-body pre code {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-size: 0.85em;
+  line-height: 1.65;
+}
+
+/* Tables — scroll sideways on screen rather than stretching the layout. */
+
+.markdown-body table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.925em;
+  overflow-x: auto;
+}
+
+.markdown-body :is(th, td) {
+  padding: 0.5em 0.75em;
+  border: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.markdown-body th {
+  background: var(--color-muted);
+  font-weight: 600;
+}

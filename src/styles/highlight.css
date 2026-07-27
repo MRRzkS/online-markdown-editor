@@ -1,0 +1,102 @@
+/*
+ * GitHub-flavoured syntax colours for highlight.js.
+ *
+ * The token rules are written once against custom properties, so the same
+ * stylesheet serves the light theme, the dark theme, and the always-light PDF
+ * without shipping (or conditionally loading) two separate themes.
+ */
+
+:root {
+  --hljs-comment: #6a737d;
+  --hljs-keyword: #d73a49;
+  --hljs-string: #032f62;
+  --hljs-literal: #005cc5;
+  --hljs-title: #6f42c1;
+  --hljs-name: #22863a;
+  --hljs-symbol: #e36209;
+  --hljs-deletion: #b31d28;
+  --hljs-addition: #22863a;
+}
+
+html.dark {
+  --hljs-comment: #8b949e;
+  --hljs-keyword: #ff7b72;
+  --hljs-string: #a5d6ff;
+  --hljs-literal: #79c0ff;
+  --hljs-title: #d2a8ff;
+  --hljs-name: #7ee787;
+  --hljs-symbol: #ffa657;
+  --hljs-deletion: #ffa198;
+  --hljs-addition: #7ee787;
+}
+
+.hljs {
+  background: transparent;
+  color: inherit;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--hljs-comment);
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-formula,
+.hljs-keyword,
+.hljs-selector-tag {
+  color: var(--hljs-keyword);
+}
+
+.hljs-regexp,
+.hljs-string,
+.hljs-template-tag {
+  color: var(--hljs-string);
+}
+
+.hljs-literal,
+.hljs-number,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-template-variable,
+.hljs-type,
+.hljs-variable {
+  color: var(--hljs-literal);
+}
+
+.hljs-section,
+.hljs-title {
+  color: var(--hljs-title);
+}
+
+.hljs-built_in,
+.hljs-name,
+.hljs-title.class_,
+.hljs-title.function_ {
+  color: var(--hljs-name);
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-symbol {
+  color: var(--hljs-symbol);
+}
+
+.hljs-deletion {
+  color: var(--hljs-deletion);
+}
+
+.hljs-addition {
+  color: var(--hljs-addition);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 600;
+}
