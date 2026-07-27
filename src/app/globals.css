@@ -1,11 +1,14 @@
 @import "tailwindcss";
-@import "highlight.js/styles/github-dark.min.css";
+@import "../styles/highlight.css";
+@import "../styles/markdown.css";
+@import "../styles/pdf.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
-  --font-mono: var(--font-mono, ui-monospace, monospace);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular,
+    monospace;
 
   --color-background: #ffffff;
   --color-foreground: #0f172a;
@@ -14,7 +17,7 @@
   --color-border: #e2e8f0;
   --color-accent: #f1f5f9;
   --color-accent-foreground: #0f172a;
-  --color-primary: #6366f1;
+  --color-primary: #4f46e5;
   --color-primary-foreground: #ffffff;
   --color-ring: #6366f1;
 }
@@ -41,7 +44,7 @@ body {
   color: var(--color-foreground);
 }
 
-/* CodeMirror overrides */
+/* CodeMirror fills its pane rather than growing with the document. */
 .cm-editor {
   height: 100% !important;
 }
@@ -50,26 +53,6 @@ body {
   overflow: auto !important;
 }
 
-/* Highlight.js dark mode overrides */
-.dark .hljs {
-  background: transparent !important;
-}
-
-/* Prose overrides for preview */
-.prose pre {
-  background: var(--color-muted) !important;
-  border: 1px solid var(--color-border);
-}
-
-.dark .prose pre code {
-  color: #e2e8f0;
-}
-
-.prose table {
-  font-size: 0.875rem;
-}
-
-/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -80,11 +63,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-muted-foreground);
+  background: var(--color-border);
   border-radius: 4px;
-  opacity: 0.3;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  opacity: 0.5;
+  background: var(--color-muted-foreground);
 }

@@ -2,77 +2,142 @@
 
 import {
   Bold,
-  Italic,
-  Strikethrough,
+  Code,
   Heading1,
   Heading2,
   Heading3,
+  Image,
+  Italic,
+  Link,
   List,
   ListOrdered,
-  Quote,
-  Code,
-  Link,
-  Image,
   Minus,
+  Quote,
+  Strikethrough,
   Table,
+  type LucideIcon,
 } from "lucide-react";
+import type { MarkdownAction } from "@/lib/markdown-format";
+import { IconButton } from "./ui/icon-button";
 
-interface ToolbarProps {
-  onInsert: (before: string, after?: string) => void;
-}
+type ToolbarItem =
+  | { kind: "separator" }
+  | { kind: "action"; icon: LucideIcon; label: string; action: MarkdownAction };
 
-const Divider = () => <div className="w-px h-5 bg-border mx-1" />;
+const separator: ToolbarItem = { kind: "separator" };
 
-export function Toolbar({ onInsert }: ToolbarProps) {
-  const buttons = [
-    { icon: Bold, label: "Bold", action: () => onInsert("**", "**") },
-    { icon: Italic, label: "Italic", action: () => onInsert("*", "*") },
-    {
-      icon: Strikethrough,
-      label: "Strikethrough",
-      action: () => onInsert("~~", "~~"),
+const items: ToolbarItem[] = [
+  {
+    kind: "action",
+    icon: Bold,
+    label: "Bold",
+    action: { type: "wrap", before: "**", after: "**", placeholder: "bold" },
+  },
+  {
+    kind: "action",
+    icon: Italic,
+    label: "Italic",
+    action: { type: "wrap", before: "_", after: "_", placeholder: "italic" },
+  },
+  {
+    kind: "action",
+    icon: Strikethrough,
+    label: "Strikethrough",
+    action: { type: "wrap", before: "~~", after: "~~", placeholder: "struck" },
+  },
+  separator,
+  {
+    kind: "action",
+    icon: Heading1,
+    label: "Heading 1",
+    action: { type: "heading", level: 1 },
+  },
+  {
+    kind: "action",
+    icon: Heading2,
+    label: "Heading 2",
+    action: { type: "heading", level: 2 },
+  },
+  {
+    kind: "action",
+    icon: Heading3,
+    label: "Heading 3",
+    action: { type: "heading", level: 3 },
+  },
+  separator,
+  {
+    kind: "action",
+    icon: List,
+    label: "Bullet list",
+    action: { type: "linePrefix", prefix: "- " },
+  },
+  {
+    kind: "action",
+    icon: ListOrdered,
+    label: "Numbered list",
+    action: { type: "linePrefix", prefix: "1. " },
+  },
+  {
+    kind: "action",
+    icon: Quote,
+    label: "Blockquote",
+    action: { type: "linePrefix", prefix: "> " },
+  },
+  separator,
+  {
+    kind: "action",
+    icon: Code,
+    label: "Code block",
+    action: { type: "block", snippet: "```\n\n```", caret: 4 },
+  },
+  {
+    kind: "action",
+    icon: Link,
+    label: "Link",
+    action: { type: "wrap", before: "[", after: "](https://)", placeholder: "text" },
+  },
+  {
+    kind: "action",
+    icon: Image,
+    label: "Image",
+    action: { type: "wrap", before: "![", after: "](https://)", placeholder: "alt" },
+  },
+  {
+    kind: "action",
+    icon: Minus,
+    label: "Divider",
+    action: { type: "block", snippet: "---" },
+  },
+  {
+    kind: "action",
+    icon: Table,
+    label: "Table",
+    action: {
+      type: "block",
+      snippet:
+        "| Column | Column |\n| ------ | ------ |\n| Cell   | Cell   |",
     },
-    <Divider key="d1" />,
-    { icon: Heading1, label: "H1", action: () => onInsert("# ") },
-    { icon: Heading2, label: "H2", action: () => onInsert("## ") },
-    { icon: Heading3, label: "H3", action: () => onInsert("### ") },
-    <Divider key="d2" />,
-    { icon: List, label: "Bullet List", action: () => onInsert("- ") },
-    { icon: ListOrdered, label: "Ordered List", action: () => onInsert("1. ") },
-    { icon: Quote, label: "Blockquote", action: () => onInsert("> ") },
-    <Divider key="d3" />,
-    { icon: Code, label: "Code", action: () => onInsert("```\n", "\n```") },
-    { icon: Link, label: "Link", action: () => onInsert("[", "](url)") },
-    {
-      icon: Image,
-      label: "Image",
-      action: () => onInsert("![alt](", ")"),
-    },
-    { icon: Minus, label: "HR", action: () => onInsert("\n---\n") },
-    {
-      icon: Table,
-      label: "Table",
-      action: () =>
-        onInsert(
-          "\n| Header | Header |\n| ------ | ------ |\n| Cell   | Cell   |\n"
-        ),
-    },
-  ];
+  },
+];
 
+export function Toolbar({
+  onAction,
+}: {
+  onAction: (action: MarkdownAction) => void;
+}) {
   return (
-    <div className="flex items-center gap-0.5 px-2 py-1.5 overflow-x-auto">
-      {buttons.map((btn, i) =>
-        "icon" in btn ? (
-          <button
-            key={i}
-            onClick={btn.action}
-            title={btn.label}
-            className="p-1.5 rounded-md hover:bg-accent text-muted-foreground hover:text-foreground transition-colors shrink-0"
-          >
-            <btn.icon size={16} />
-          </button>
+    <div className="flex items-center gap-0.5 overflow-x-auto border-b border-border px-2 py-1.5">
+      {items.map((item, index) =>
+        item.kind === "separator" ? (
+          <div key={index} className="mx-1 h-5 w-px shrink-0 bg-border" />
         ) : (
-          btn
+          <IconButton
+            key={index}
+            label={item.label}
+            onClick={() => onAction(item.action)}
+          >
+            <item.icon size={16} />
+          </IconButton>
         )
       )}
     </div>

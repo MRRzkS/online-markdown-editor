@@ -1,0 +1,164 @@
+/*
+ * The printable document.
+ *
+ * `.pdf-document` is a self-contained light scope: it redefines every design
+ * token it inherits so the sheet looks identical whether the app is in dark
+ * mode or being cloned into the hidden print frame. The exact same element is
+ * what the dialog shows as a paper preview and what the browser prints, so the
+ * preview cannot drift from the result.
+ */
+
+.pdf-document {
+  --color-foreground: #1f2933;
+  --color-muted: #f5f7fa;
+  --color-muted-foreground: #6b7280;
+  --color-border: #d9e0e8;
+  --color-primary: #2f5fd0;
+
+  --hljs-comment: #6a737d;
+  --hljs-keyword: #d73a49;
+  --hljs-string: #032f62;
+  --hljs-literal: #005cc5;
+  --hljs-title: #6f42c1;
+  --hljs-name: #22863a;
+  --hljs-symbol: #e36209;
+  --hljs-deletion: #b31d28;
+  --hljs-addition: #22863a;
+
+  /* Print-safe stacks: the app's webfonts are not loaded in the print frame. */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+
+  width: var(--pdf-page-width);
+  padding: var(--pdf-page-margin);
+  background: #fff;
+  color: var(--color-foreground);
+  color-scheme: light;
+  font-family: var(--font-sans);
+  font-size: var(--pdf-font-size);
+}
+
+.pdf-document .markdown-body {
+  font-size: inherit;
+  line-height: 1.65;
+}
+
+.pdf-document .markdown-body :is(h1, h2, h3, h4, h5, h6) {
+  margin-top: 1.6em;
+}
+
+/* A print sheet has its own margins; tables should fill them, not scroll. */
+.pdf-document .markdown-body table {
+  display: table;
+  width: 100%;
+}
+
+.pdf-document-header {
+  margin-bottom: 2.25em;
+  padding-bottom: 0.9em;
+  border-bottom: 2px solid var(--color-foreground);
+}
+
+.pdf-document-header h1 {
+  margin: 0 0 0.35em;
+  font-size: 1.9em;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.pdf-document-header p {
+  margin: 0;
+  color: var(--color-muted-foreground);
+  font-size: 0.8em;
+}
+
+/* Paper preview inside the export dialog */
+
+.pdf-preview {
+  background: var(--color-muted);
+  overflow: auto;
+}
+
+.pdf-preview-paper {
+  zoom: 0.5;
+}
+
+@media (min-width: 1280px) {
+  .pdf-preview-paper {
+    zoom: 0.62;
+  }
+}
+
+.pdf-preview .pdf-document {
+  min-height: 297mm;
+  box-shadow: 0 2px 24px rgb(15 23 42 / 0.18);
+}
+
+/*
+ * Below the dialog's two-column breakpoint the preview is moved out of view
+ * instead of being hidden: `display: none` would leave the print frame with
+ * nothing to clone.
+ */
+@media (max-width: 1023px) {
+  .pdf-preview {
+    position: absolute;
+    top: 0;
+    left: -200vw;
+  }
+}
+
+/* Pagination */
+
+@media print {
+  .pdf-preview {
+    position: static;
+    background: none;
+    overflow: visible;
+  }
+
+  .pdf-preview-paper {
+    zoom: 1;
+  }
+
+  .pdf-document {
+    width: auto;
+    min-height: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .pdf-document .markdown-body :is(h1, h2, h3, h4, h5, h6) {
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  .pdf-document .markdown-body :is(pre, blockquote, table, tr, img, li) {
+    break-inside: avoid;
+  }
+
+  .pdf-document .markdown-body p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Repeat table headers when a table spans several pages. */
+  .pdf-document .markdown-body thead {
+    display: table-header-group;
+  }
+
+  /* No horizontal scrollbars on paper — wrap long lines instead. */
+  .pdf-document .markdown-body pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .pdf-document[data-page-breaks="chapters"] .markdown-body > h1:not(:first-child),
+  .pdf-document[data-page-breaks="sections"]
+    .markdown-body
+    > :is(h1, h2):not(:first-child) {
+    break-before: page;
+  }
+}
