@@ -2,11 +2,10 @@ import Link from "next/link";
 import {
   ArrowRight,
   Check,
-  Eye,
-  FileDown,
   LockKeyhole,
   Sparkles,
 } from "lucide-react";
+import { ExportShowcase } from "@/components/landing/export-showcase";
 
 const benefits = [
   ["Live", "Preview as you type"],
@@ -17,8 +16,8 @@ const benefits = [
 export default function Home() {
   return (
     <main className="landing-page min-h-screen overflow-x-clip bg-background text-foreground">
-      <nav className="apple-nav-wrap">
-        <div className="apple-nav liquid-glass">
+      <nav className="site-nav">
+        <div className="site-nav-inner">
           <Link href="/" className="apple-brand" aria-label="MarkdownPad home">
             <span className="brand-mark" aria-hidden>M</span>
             <span>MarkdownPad</span>
@@ -30,9 +29,9 @@ export default function Home() {
             <a href="#privacy" className="nav-link">Privacy</a>
           </div>
 
-          <Link href="/editor" className="button-primary">
+          <Link href="/editor" className="nav-cta">
             Open editor
-            <ArrowRight size={16} strokeWidth={1.5} />
+            <ArrowRight size={15} strokeWidth={1.5} />
           </Link>
         </div>
       </nav>
@@ -80,7 +79,7 @@ export default function Home() {
             <div className="product-body">
               <div className="product-source">
                 <div className="product-pane-label">Markdown</div>
-                <div className="code-lines">
+                <div className="code-lines" aria-label="Markdown source">
                   <p><b>#</b> Product brief</p>
                   <p>A focused writing workspace for modern teams.</p>
                   <p><b>##</b> Why it matters</p>
@@ -92,13 +91,11 @@ export default function Home() {
 
               <div className="product-preview">
                 <div className="product-pane-label">Preview</div>
-                <article>
-                  <span className="document-label">DOCUMENT</span>
-                  <h2>Product brief</h2>
+                <article aria-label="Rendered Markdown preview">
+                  <h2 className="preview-h1">Product brief</h2>
                   <p>A focused writing workspace for modern teams.</p>
-                  <hr />
-                  <h3>Why it matters</h3>
-                  <ul>
+                  <h3 className="preview-h2">Why it matters</h3>
+                  <ul className="product-bullets">
                     <li>Write without visual clutter</li>
                     <li>Preview changes instantly</li>
                     <li>Export a polished document</li>
@@ -108,8 +105,8 @@ export default function Home() {
             </div>
 
             <div className="product-footer">
-              <span>47 words</span>
-              <span>1 min read</span>
+              <span>23 words</span>
+              <span>&lt;1 min read</span>
               <span className="ml-auto">Instant preview</span>
             </div>
           </div>
@@ -137,7 +134,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="story-visual live-visual">
+        <div className="story-visual live-visual" aria-label="Markdown live preview example">
           <div className="live-source">
             <span># Meeting notes</span>
             <span>## Decisions</span>
@@ -145,15 +142,17 @@ export default function Home() {
             <span>- Keep the flow simple</span>
           </div>
           <div className="live-document">
-            <small>MEETING NOTES</small>
-            <h3>Decisions</h3>
-            <p>Ship the new onboarding.</p>
-            <p>Keep the flow simple.</p>
+            <h3 className="live-h1">Meeting notes</h3>
+            <h4 className="live-h2">Decisions</h4>
+            <ul>
+              <li>Ship the new onboarding</li>
+              <li>Keep the flow simple</li>
+            </ul>
           </div>
         </div>
       </section>
 
-      <section id="export" className="story-section story-section-reverse">
+      <section id="export" className="story-section story-section-reverse export-story">
         <div className="story-copy">
           <p className="section-kicker">Print-quality export</p>
           <h2 className="story-title">
@@ -162,8 +161,8 @@ export default function Home() {
             to something polished.
           </h2>
           <p className="story-body">
-            Export selectable, searchable PDF with real links, or keep your work
-            portable with HTML and raw Markdown.
+            Tune the page before you export. The preview responds instantly, while
+            the final PDF keeps real text, working links, and clean pagination.
           </p>
           <div className="inline-checks">
             <span><Check size={15} strokeWidth={1.5} /> Vector-sharp PDF</span>
@@ -172,29 +171,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="story-visual export-visual">
-          <div className="export-controls">
-            <span className="control-label">Paper</span>
-            <div className="segmented-demo">
-              <i className="active">A4</i>
-              <i>Letter</i>
-            </div>
-            <span className="control-label">Margins</span>
-            <div className="segmented-demo three">
-              <i>Compact</i>
-              <i className="active">Normal</i>
-              <i>Roomy</i>
-            </div>
-          </div>
-          <div className="paper-demo">
-            <small>PRODUCT BRIEF</small>
-            <h3>A document that feels done.</h3>
-            <p>Readable type. Thoughtful spacing. Ready to share.</p>
-            <div className="paper-rule" />
-            <p className="paper-line" />
-            <p className="paper-line short" />
-          </div>
-        </div>
+        <ExportShowcase />
       </section>
 
       <section id="privacy" className="privacy-apple">
