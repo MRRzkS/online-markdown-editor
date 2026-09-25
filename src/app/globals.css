@@ -1616,3 +1616,251 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Export showcase — full-width Apple product demo
+   Keep controls readable and the paper preview fully contained at every breakpoint. */
+.export-story {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 52px;
+  padding-top: 118px;
+  padding-bottom: 118px;
+}
+
+.export-story .story-copy {
+  order: 0;
+  width: min(100%, 940px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.export-story .story-title {
+  max-width: 900px;
+  margin-inline: auto;
+  font-size: clamp(3.7rem, 7.4vw, 7.2rem);
+  text-wrap: balance;
+}
+
+.export-story .story-body {
+  width: min(100%, 680px);
+  margin-inline: auto;
+}
+
+.export-story .inline-checks {
+  justify-content: center;
+}
+
+.export-showcase {
+  width: 100%;
+  min-height: 680px;
+  grid-template-columns: 292px minmax(0, 1fr);
+  gap: 24px;
+  padding: 24px;
+  border-radius: 38px;
+}
+
+.export-control-panel {
+  min-width: 0;
+  gap: 20px;
+  padding: 24px;
+  border-radius: 26px;
+}
+
+.export-control-heading strong {
+  font-size: 24px;
+}
+
+.export-control-group,
+.export-segmented,
+.export-segment {
+  min-width: 0;
+}
+
+.export-segment {
+  overflow: hidden;
+  padding-inline: 7px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.paper-stage {
+  min-width: 0;
+  overflow: hidden;
+  padding: 34px 32px 52px;
+}
+
+.paper-sheet,
+.paper-sheet[data-paper="letter"] {
+  width: min(100%, 360px);
+  height: auto;
+  overflow: hidden;
+}
+
+.paper-sheet {
+  aspect-ratio: 1 / 1.414;
+}
+
+.paper-sheet[data-paper="letter"] {
+  aspect-ratio: 8.5 / 11;
+}
+
+.paper-content {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.paper-content h3 {
+  font-size: 1.72em;
+}
+
+.paper-meta {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
+@media (max-width: 980px) {
+  .export-showcase {
+    grid-template-columns: 250px minmax(0, 1fr);
+    min-height: 620px;
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .export-control-panel {
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .paper-sheet,
+  .paper-sheet[data-paper="letter"] {
+    width: min(100%, 330px);
+  }
+}
+
+@media (max-width: 767px) {
+  .export-story {
+    gap: 30px;
+    padding-top: 78px;
+    padding-bottom: 78px;
+  }
+
+  .export-story .story-copy {
+    text-align: left;
+  }
+
+  .export-story .story-title {
+    margin-inline: 0;
+    font-size: clamp(2.8rem, 13vw, 4.25rem);
+    text-wrap: pretty;
+  }
+
+  .export-story .story-body {
+    margin-inline: 0;
+  }
+
+  .export-story .inline-checks {
+    justify-content: flex-start;
+  }
+
+  .export-showcase {
+    min-height: 456px;
+    grid-template-columns: minmax(132px, .88fr) minmax(0, 1.12fr);
+    gap: 9px;
+    padding: 9px;
+    border-radius: 26px;
+  }
+
+  .export-control-panel {
+    gap: 10px;
+    padding: 12px 9px;
+    border-radius: 18px;
+  }
+
+  .export-control-heading strong {
+    font-size: 14px;
+  }
+
+  .export-control-heading span:first-child,
+  .control-label {
+    font-size: 7px !important;
+  }
+
+  .export-segment {
+    min-height: 32px;
+    padding-inline: 2px;
+    font-size: 7px;
+  }
+
+  .export-open-editor {
+    min-height: 38px;
+    padding-inline: 5px;
+    font-size: 8px;
+  }
+
+  .paper-stage {
+    padding: 18px 5px 38px;
+  }
+
+  .paper-sheet,
+  .paper-sheet[data-paper="letter"] {
+    width: min(100%, 190px);
+  }
+
+  .paper-content {
+    padding: 24px 17px;
+    font-size: 72%;
+  }
+
+  .paper-sheet[data-margin="compact"] .paper-content {
+    padding: 17px 12px;
+  }
+
+  .paper-sheet[data-margin="roomy"] .paper-content {
+    padding: 30px 21px;
+  }
+
+  .paper-content h3 {
+    margin: 11px 0 8px;
+    font-size: 1.45em;
+  }
+
+  .paper-content p,
+  .paper-content li {
+    line-height: 1.5;
+  }
+
+  .paper-rule {
+    margin: 15px 0;
+  }
+
+  .paper-meta {
+    right: 6px;
+    bottom: 12px;
+    left: 6px;
+    gap: 4px 7px;
+    font-size: 6px;
+  }
+}
+
+@media (max-width: 390px) {
+  .export-showcase {
+    grid-template-columns: minmax(126px, .92fr) minmax(0, 1.08fr);
+  }
+
+  .export-control-panel {
+    padding-inline: 7px;
+  }
+
+  .export-segment {
+    font-size: 6.5px;
+  }
+
+  .paper-content {
+    padding: 21px 14px;
+    font-size: 67%;
+  }
+
+  .paper-sheet[data-margin="roomy"] .paper-content {
+    padding: 27px 18px;
+  }
+}
