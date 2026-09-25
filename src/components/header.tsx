@@ -13,6 +13,7 @@ import {
   PanelRight,
   Sun,
 } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { useTheme } from "@/hooks/use-theme";
 import { deriveTitle, toFileName } from "@/lib/document";
@@ -64,71 +65,84 @@ export function Header({
   }
 
   return (
-    <header className="flex items-center justify-between gap-2 border-b border-border px-3 py-2">
-      <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1.5" aria-hidden>
-          <span className="size-3 rounded-full bg-red-500/80" />
-          <span className="size-3 rounded-full bg-yellow-500/80" />
-          <span className="size-3 rounded-full bg-green-500/80" />
-        </div>
-        <span className="ml-2 text-sm font-semibold tracking-tight">
+    <header className="relative z-30 flex min-h-16 items-center justify-between gap-2 border-b border-foreground/[0.07] bg-background/75 px-2.5 backdrop-blur-xl backdrop-saturate-[180%] sm:px-4">
+      <Link
+        href="/"
+        className="flex min-h-11 shrink-0 items-center gap-2 rounded-xl px-1.5 transition-opacity hover:opacity-80"
+        aria-label="Back to MarkdownPad home"
+      >
+        <span className="brand-mark" aria-hidden>M</span>
+        <span className="hidden text-sm font-semibold tracking-[-0.025em] sm:block">
           MarkdownPad
         </span>
-      </div>
+      </Link>
 
-      <div className="flex items-center gap-1">
+      <div className="hidden items-center gap-1 rounded-xl border border-foreground/[0.07] bg-foreground/[0.03] p-1 md:flex">
         <IconButton
           label="Editor panel"
           active={showEditor}
           onClick={onToggleEditor}
         >
-          <PanelLeft size={16} />
+          <PanelLeft size={16} strokeWidth={1.5} />
         </IconButton>
         <IconButton
           label="Preview panel"
           active={showPreview}
           onClick={onTogglePreview}
         >
-          <PanelRight size={16} />
+          <PanelRight size={16} strokeWidth={1.5} />
         </IconButton>
         <IconButton
           label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
           onClick={onToggleFullscreen}
         >
-          {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+          {isFullscreen ? (
+            <Minimize2 size={16} strokeWidth={1.5} />
+          ) : (
+            <Maximize2 size={16} strokeWidth={1.5} />
+          )}
         </IconButton>
+      </div>
 
-        <Divider />
-
-        <IconButton
-          label={copied ? "Copied" : "Copy markdown"}
-          onClick={handleCopy}
-        >
-          {copied ? <Check size={16} /> : <Copy size={16} />}
-        </IconButton>
-        <IconButton label="Download .md" onClick={handleExportMarkdown}>
-          <FileText size={16} />
-        </IconButton>
-        <IconButton label="Download .html" onClick={handleExportHtml}>
-          <Code2 size={16} />
-        </IconButton>
+      <div className="flex min-w-0 items-center justify-end gap-1">
+        <div className="hidden items-center gap-1 lg:flex">
+          <IconButton
+            label={copied ? "Copied" : "Copy markdown"}
+            onClick={handleCopy}
+          >
+            {copied ? (
+              <Check size={16} strokeWidth={1.5} />
+            ) : (
+              <Copy size={16} strokeWidth={1.5} />
+            )}
+          </IconButton>
+          <IconButton label="Download .md" onClick={handleExportMarkdown}>
+            <FileText size={16} strokeWidth={1.5} />
+          </IconButton>
+          <IconButton label="Download .html" onClick={handleExportHtml}>
+            <Code2 size={16} strokeWidth={1.5} />
+          </IconButton>
+        </div>
 
         <button
           type="button"
           onClick={() => setPdfDialogOpen(true)}
-          className="ml-1 inline-flex items-center gap-1.5 rounded-lg bg-primary px-2.5 py-1.5 text-xs font-medium text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-foreground px-3 text-xs font-semibold text-background transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:px-4"
         >
-          <FileDown size={15} />
-          PDF
+          <FileDown size={15} strokeWidth={1.5} />
+          <span className="hidden sm:inline">Export PDF</span>
+          <span className="sm:hidden">PDF</span>
         </button>
-
-        <Divider />
 
         <IconButton
           label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           onClick={toggleTheme}
         >
-          {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+          {theme === "dark" ? (
+            <Sun size={16} strokeWidth={1.5} />
+          ) : (
+            <Moon size={16} strokeWidth={1.5} />
+          )}
         </IconButton>
       </div>
 
@@ -139,8 +153,4 @@ export function Header({
       />
     </header>
   );
-}
-
-function Divider() {
-  return <div className="mx-1 h-5 w-px bg-border" />;
 }
