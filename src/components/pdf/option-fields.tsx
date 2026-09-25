@@ -3,7 +3,6 @@
 import { useId } from "react";
 import type { Choice } from "@/lib/pdf-options";
 
-/** A row of mutually exclusive options, backed by real radio inputs. */
 export function SegmentedField<T extends string>({
   label,
   value,
@@ -19,10 +18,10 @@ export function SegmentedField<T extends string>({
 
   return (
     <fieldset>
-      <legend className="mb-1.5 text-xs font-medium text-muted-foreground">
+      <legend className="mb-2 text-xs font-semibold text-foreground/72">
         {label}
       </legend>
-      <div className="flex gap-1 rounded-lg bg-muted p-1">
+      <div className="flex gap-1 rounded-[14px] border border-foreground/[0.07] bg-foreground/[0.035] p-1">
         {choices.map((choice) => (
           <label key={choice.value} className="flex-1">
             <input
@@ -33,9 +32,7 @@ export function SegmentedField<T extends string>({
               onChange={() => onChange(choice.value)}
               className="peer sr-only"
             />
-            <span
-              className="block cursor-pointer rounded-md px-2 py-1.5 text-center text-sm transition-colors hover:text-foreground peer-checked:bg-background peer-checked:font-medium peer-checked:text-foreground peer-checked:shadow-sm peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring text-muted-foreground"
-            >
+            <span className="flex min-h-11 cursor-pointer items-center justify-center rounded-[10px] px-2 text-center text-xs font-medium text-muted-foreground transition-all hover:text-foreground peer-checked:bg-secondary peer-checked:text-primary peer-checked:shadow-sm peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring">
               {choice.label}
             </span>
           </label>
@@ -45,7 +42,6 @@ export function SegmentedField<T extends string>({
   );
 }
 
-/** An on/off setting rendered as a switch. */
 export function ToggleField({
   label,
   description,
@@ -58,10 +54,10 @@ export function ToggleField({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="flex cursor-pointer items-start justify-between gap-4">
+    <label className="flex min-h-11 cursor-pointer items-center justify-between gap-4">
       <span className="min-w-0">
-        <span className="block text-sm">{label}</span>
-        <span className="block text-xs text-muted-foreground">
+        <span className="block text-sm font-medium">{label}</span>
+        <span className="mt-0.5 block text-xs leading-5 text-muted-foreground">
           {description}
         </span>
       </span>
@@ -73,7 +69,7 @@ export function ToggleField({
       />
       <span
         aria-hidden
-        className="relative mt-0.5 h-5 w-9 shrink-0 rounded-full bg-border transition-colors after:absolute after:top-0.5 after:left-0.5 after:size-4 after:rounded-full after:bg-white after:shadow-sm after:transition-transform peer-checked:bg-primary peer-checked:after:translate-x-4 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring"
+        className="relative h-7 w-12 shrink-0 rounded-full border border-foreground/[0.08] bg-foreground/[0.08] transition-colors after:absolute after:left-[3px] after:top-[3px] after:size-5 after:rounded-full after:bg-secondary after:shadow-sm after:transition-transform peer-checked:bg-accent-strong peer-checked:after:translate-x-5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring"
       />
     </label>
   );
