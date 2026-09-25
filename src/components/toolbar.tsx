@@ -48,7 +48,7 @@ const items: ToolbarItem[] = [
 
 export function Toolbar({ onAction }: { onAction: (action: MarkdownAction) => void }) {
   return (
-    <div className="flex min-h-14 items-center gap-0.5 overflow-x-auto border-b border-foreground/[0.07] bg-foreground/[0.018] px-2 py-1">
+    <div className="toolbar-scroll flex min-h-14 items-center gap-0.5 overflow-x-auto border-b border-foreground/[0.07] bg-foreground/[0.018] px-2 py-1">
       <span className="mr-2 hidden shrink-0 pl-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground sm:block">
         Format
       </span>
