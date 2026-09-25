@@ -23,13 +23,6 @@ interface PdfExportDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-/**
- * Export panel for the PDF.
- *
- * The document is rendered by the browser's own print engine rather than being
- * rasterised, which is what keeps the output crisp: real text, selectable and
- * searchable, with working hyperlinks and vector-sharp glyphs at any zoom.
- */
 export function PdfExportDialog({
   content,
   open,
@@ -52,74 +45,78 @@ export function PdfExportDialog({
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-sm" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 z-50 flex h-[min(90vh,44rem)] w-[min(95vw,70rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-border bg-background shadow-2xl">
-          <div className="flex items-start justify-between gap-4 border-b border-border px-5 py-3.5">
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-primary/55 backdrop-blur-xl" />
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 flex h-[min(92vh,46rem)] w-[min(96vw,72rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-[26px] border border-foreground/[0.08] bg-background shadow-[0_32px_100px_rgba(0,0,0,0.32)] outline-none">
+          <div className="flex min-h-20 items-center justify-between gap-4 border-b border-foreground/[0.07] px-5 sm:px-6">
             <div>
-              <Dialog.Title className="text-sm font-semibold">
+              <Dialog.Title className="text-base font-semibold tracking-[-0.025em]">
                 Export PDF
               </Dialog.Title>
-              <Dialog.Description className="text-xs text-muted-foreground">
-                Laid out on real paper — text stays selectable and links stay
-                clickable.
+              <Dialog.Description className="mt-1 text-xs leading-5 text-muted-foreground">
+                Real text, working links, and print-quality pagination.
               </Dialog.Description>
             </div>
             <Dialog.Close asChild>
               <button
                 type="button"
                 aria-label="Close"
-                className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl text-muted-foreground transition-colors hover:bg-foreground/[0.05] hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
-                <X size={16} />
+                <X size={17} strokeWidth={1.5} />
               </button>
             </Dialog.Close>
           </div>
 
           <div className="flex min-h-0 flex-1">
-            <div className="w-full space-y-5 overflow-y-auto p-5 lg:w-80 lg:shrink-0 lg:border-r lg:border-border">
-              <SegmentedField
-                label="Paper size"
-                value={options.paper}
-                choices={PAPER_CHOICES}
-                onChange={(value) => update("paper", value)}
-              />
-              <SegmentedField
-                label="Margins"
-                value={options.margin}
-                choices={MARGIN_CHOICES}
-                onChange={(value) => update("margin", value)}
-              />
-              <SegmentedField
-                label="Text size"
-                value={options.textScale}
-                choices={TEXT_SCALE_CHOICES}
-                onChange={(value) => update("textScale", value)}
-              />
+            <div className="w-full space-y-6 overflow-y-auto p-5 sm:p-6 lg:w-[22rem] lg:shrink-0 lg:border-r lg:border-foreground/[0.07]">
+              <div>
+                <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Document setup
+                </p>
+                <div className="space-y-5">
+                  <SegmentedField
+                    label="Paper size"
+                    value={options.paper}
+                    choices={PAPER_CHOICES}
+                    onChange={(value) => update("paper", value)}
+                  />
+                  <SegmentedField
+                    label="Margins"
+                    value={options.margin}
+                    choices={MARGIN_CHOICES}
+                    onChange={(value) => update("margin", value)}
+                  />
+                  <SegmentedField
+                    label="Text size"
+                    value={options.textScale}
+                    choices={TEXT_SCALE_CHOICES}
+                    onChange={(value) => update("textScale", value)}
+                  />
+                </div>
+              </div>
 
-              <SegmentedField
-                label="Page breaks"
-                value={options.pageBreaks}
-                choices={PAGE_BREAK_CHOICES}
-                onChange={(value) => update("pageBreaks", value)}
-              />
-              <p className="-mt-3 text-xs text-muted-foreground">
-                Start a new page at every <code>#</code> heading (chapters) or
-                every <code>#</code> and <code>##</code> heading (sections).
-              </p>
+              <div className="h-px bg-foreground/[0.07]" />
 
-              <div className="border-t border-border pt-5">
+              <div className="space-y-5">
+                <SegmentedField
+                  label="Page breaks"
+                  value={options.pageBreaks}
+                  choices={PAGE_BREAK_CHOICES}
+                  onChange={(value) => update("pageBreaks", value)}
+                />
+                <p className="-mt-2 text-xs leading-5 text-muted-foreground">
+                  Start pages at chapter or section headings when needed.
+                </p>
                 <ToggleField
                   label="Title block"
-                  description="Document title, date and word count on page one."
+                  description="Add title, date, and word count to page one."
                   checked={options.titleBlock}
                   onChange={(value) => update("titleBlock", value)}
                 />
               </div>
             </div>
 
-            {/* Below `lg` this is parked off-screen by CSS rather than hidden:
-                the print frame needs a rendered node to clone. */}
-            <div className="pdf-preview flex-1 p-6" aria-hidden>
+            <div className="pdf-preview flex-1 bg-foreground/[0.025] p-6" aria-hidden>
               <div className="pdf-preview-paper mx-auto w-fit">
                 <PdfDocument
                   ref={paperRef}
@@ -131,17 +128,17 @@ export function PdfExportDialog({
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-4 border-t border-border px-5 py-3">
-            <p className="text-xs text-muted-foreground">
-              Pick <strong className="font-medium">Save as PDF</strong> as the
-              destination in the print dialog.
+          <div className="flex min-h-20 items-center justify-between gap-4 border-t border-foreground/[0.07] px-5 sm:px-6">
+            <p className="hidden max-w-lg text-xs leading-5 text-muted-foreground sm:block">
+              Choose <strong className="font-semibold text-foreground">Save as PDF</strong> in
+              your browser print dialog.
             </p>
             <button
               type="button"
               onClick={() => printDocument()}
-              className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="ml-auto inline-flex min-h-11 shrink-0 items-center gap-2 rounded-xl bg-foreground px-4 text-sm font-semibold text-background transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
             >
-              <FileDown size={16} />
+              <FileDown size={16} strokeWidth={1.5} />
               Download PDF
             </button>
           </div>
