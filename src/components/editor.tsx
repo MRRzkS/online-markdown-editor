@@ -14,25 +14,45 @@ const extensions = [
 
 const typography = {
   ".cm-content": {
-    fontFamily: "var(--font-mono)",
+    fontFamily: "var(--font-inter)",
     fontSize: "14px",
-    lineHeight: "1.7",
+    lineHeight: "1.78",
+    padding: "18px 8px 24px",
+  },
+  ".cm-line": {
+    padding: "0 12px",
+  },
+  ".cm-gutters": {
+    fontFamily: "var(--font-inter)",
+    fontSize: "11px",
   },
 };
 
 const lightTheme = EditorView.theme({
   ...typography,
-  "&": { backgroundColor: "#ffffff" },
+  "&": { backgroundColor: "transparent", color: "#0b0d12" },
   ".cm-gutters": {
-    backgroundColor: "#f8fafc",
-    borderRight: "1px solid #e2e8f0",
-    color: "#94a3b8",
+    backgroundColor: "transparent",
+    borderRight: "1px solid rgba(11,13,18,.06)",
+    color: "rgba(11,13,18,.34)",
   },
-  ".cm-activeLineGutter": { backgroundColor: "#f1f5f9" },
-  ".cm-activeLine": { backgroundColor: "#f8fafc" },
+  ".cm-activeLineGutter": { backgroundColor: "rgba(11,13,18,.035)" },
+  ".cm-activeLine": { backgroundColor: "rgba(11,13,18,.022)" },
+  ".cm-selectionBackground": { backgroundColor: "rgba(110,92,255,.16) !important" },
 });
 
-const darkTheme = EditorView.theme(typography);
+const darkTheme = EditorView.theme({
+  ...typography,
+  "&": { backgroundColor: "transparent" },
+  ".cm-gutters": {
+    backgroundColor: "transparent",
+    borderRight: "1px solid rgba(245,245,247,.07)",
+    color: "rgba(245,245,247,.36)",
+  },
+  ".cm-activeLineGutter": { backgroundColor: "rgba(245,245,247,.045)" },
+  ".cm-activeLine": { backgroundColor: "rgba(245,245,247,.025)" },
+  ".cm-selectionBackground": { backgroundColor: "rgba(141,130,255,.18) !important" },
+});
 
 interface EditorProps {
   value: string;
