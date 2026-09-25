@@ -9,6 +9,7 @@ import {
   Maximize2,
   Minimize2,
   Moon,
+  MoreHorizontal,
   PanelLeft,
   PanelRight,
   Sun,
@@ -46,26 +47,35 @@ export function Header({
   const { theme, toggleTheme } = useTheme();
   const [copied, setCopied] = useState(false);
   const [pdfDialogOpen, setPdfDialogOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   async function handleCopy() {
     await navigator.clipboard.writeText(content);
     setCopied(true);
+    setMobileMenuOpen(false);
     setTimeout(() => setCopied(false), COPY_FEEDBACK_MS);
   }
 
   function handleExportMarkdown() {
     const title = deriveTitle(content);
     downloadFile(content, toFileName(title, "md"), "text/markdown");
+    setMobileMenuOpen(false);
   }
 
   async function handleExportHtml() {
     const title = deriveTitle(content);
     const html = await buildHtmlDocument(content, title);
     downloadFile(html, toFileName(title, "html"), "text/html");
+    setMobileMenuOpen(false);
+  }
+
+  function handleFullscreen() {
+    onToggleFullscreen();
+    setMobileMenuOpen(false);
   }
 
   return (
-    <header className="relative z-30 flex min-h-16 items-center justify-between gap-2 border-b border-foreground/[0.07] bg-background/75 px-2.5 backdrop-blur-xl backdrop-saturate-[180%] sm:px-4">
+    <header className="relative z-30 flex min-h-16 shrink-0 items-center justify-between gap-2 border-b border-foreground/[0.07] bg-background/75 px-2.5 backdrop-blur-xl backdrop-saturate-[180%] sm:px-4">
       <Link
         href="/"
         className="flex min-h-11 shrink-0 items-center gap-2 rounded-xl px-1.5 transition-opacity hover:opacity-80"
@@ -78,18 +88,10 @@ export function Header({
       </Link>
 
       <div className="hidden items-center gap-1 rounded-xl border border-foreground/[0.07] bg-foreground/[0.03] p-1 md:flex">
-        <IconButton
-          label="Editor panel"
-          active={showEditor}
-          onClick={onToggleEditor}
-        >
+        <IconButton label="Editor panel" active={showEditor} onClick={onToggleEditor}>
           <PanelLeft size={16} strokeWidth={1.5} />
         </IconButton>
-        <IconButton
-          label="Preview panel"
-          active={showPreview}
-          onClick={onTogglePreview}
-        >
+        <IconButton label="Preview panel" active={showPreview} onClick={onTogglePreview}>
           <PanelRight size={16} strokeWidth={1.5} />
         </IconButton>
         <IconButton
@@ -106,15 +108,8 @@ export function Header({
 
       <div className="flex min-w-0 items-center justify-end gap-1">
         <div className="hidden items-center gap-1 lg:flex">
-          <IconButton
-            label={copied ? "Copied" : "Copy markdown"}
-            onClick={handleCopy}
-          >
-            {copied ? (
-              <Check size={16} strokeWidth={1.5} />
-            ) : (
-              <Copy size={16} strokeWidth={1.5} />
-            )}
+          <IconButton label={copied ? "Copied" : "Copy markdown"} onClick={handleCopy}>
+            {copied ? <Check size={16} strokeWidth={1.5} /> : <Copy size={16} strokeWidth={1.5} />}
           </IconButton>
           <IconButton label="Download .md" onClick={handleExportMarkdown}>
             <FileText size={16} strokeWidth={1.5} />
@@ -134,15 +129,34 @@ export function Header({
           <span className="sm:hidden">PDF</span>
         </button>
 
+        <div className="relative lg:hidden">
+          <IconButton
+            label="More actions"
+            active={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((value) => !value)}
+          >
+            <MoreHorizontal size={18} strokeWidth={1.5} />
+          </IconButton>
+
+          {mobileMenuOpen && (
+            <div className="liquid-glass absolute right-0 top-[50px] z-50 w-56 overflow-hidden rounded-[16px] p-1.5 shadow-2xl">
+              <MobileAction icon={copied ? Check : Copy} label={copied ? "Copied" : "Copy Markdown"} onClick={handleCopy} />
+              <MobileAction icon={FileText} label="Download Markdown" onClick={handleExportMarkdown} />
+              <MobileAction icon={Code2} label="Download HTML" onClick={handleExportHtml} />
+              <MobileAction
+                icon={isFullscreen ? Minimize2 : Maximize2}
+                label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+                onClick={handleFullscreen}
+              />
+            </div>
+          )}
+        </div>
+
         <IconButton
           label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           onClick={toggleTheme}
         >
-          {theme === "dark" ? (
-            <Sun size={16} strokeWidth={1.5} />
-          ) : (
-            <Moon size={16} strokeWidth={1.5} />
-          )}
+          {theme === "dark" ? <Sun size={16} strokeWidth={1.5} /> : <Moon size={16} strokeWidth={1.5} />}
         </IconButton>
       </div>
 
@@ -152,5 +166,26 @@ export function Header({
         onOpenChange={setPdfDialogOpen}
       />
     </header>
+  );
+}
+
+function MobileAction({
+  icon: Icon,
+  label,
+  onClick,
+}: {
+  icon: typeof Copy;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 text-left text-xs font-medium text-foreground transition hover:bg-foreground/[0.06]"
+    >
+      <Icon size={16} strokeWidth={1.5} className="text-muted-foreground" />
+      {label}
+    </button>
   );
 }
